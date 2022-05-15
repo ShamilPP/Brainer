@@ -14,12 +14,13 @@ class MyTimer extends StatefulWidget {
 }
 
 class _MyTimerState extends State<MyTimer> {
-  int _time = 5;
+  int _time = 1;
   AudioCache player = AudioCache();
   late Timer timer;
 
   @override
   void initState() {
+    _time = Provider.of<GameProvider>(context, listen: false).timer;
     startTimer();
     super.initState();
   }
@@ -32,22 +33,18 @@ class _MyTimerState extends State<MyTimer> {
 
   @override
   Widget build(BuildContext context) {
-    return Provider.of<GameProvider>(context).isPlaying
-        ? const SizedBox()
-        : Container(
-            width: 70,
-            height: 70,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(50), color: Colors.red),
-            child: Center(
-                child: Text(
-              _time.toString(),
-              style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold),
-            )),
-          );
+    return Container(
+      width: 70,
+      height: 70,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(50), color: Colors.red),
+      child: Center(
+          child: Text(
+        _time.toString(),
+        style: const TextStyle(
+            color: Colors.white, fontSize: 30, fontWeight: FontWeight.bold),
+      )),
+    );
   }
 
   void startTimer() {
@@ -60,7 +57,8 @@ class _MyTimerState extends State<MyTimer> {
             timer.cancel();
             player.play("ended.mp3").then((value) {
               player.clearAll();
-              Provider.of<GameProvider>(context, listen: false).setPlaying();
+              Provider.of<GameProvider>(context, listen: false)
+                  .setPlaying(true);
             });
           });
         } else {

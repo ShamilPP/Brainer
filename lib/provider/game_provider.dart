@@ -6,6 +6,8 @@ class GameProvider with ChangeNotifier {
   int userCount = 0;
   bool isPlaying = false;
   int difficulty = 2;
+  bool isShowHint = false;
+  int timer = 1;
 
   Map<int, String> values = {};
 
@@ -22,8 +24,8 @@ class GameProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void setPlaying() {
-    isPlaying = true;
+  void setPlaying(bool playing) {
+    isPlaying = playing;
     notifyListeners();
   }
 
@@ -31,7 +33,7 @@ class GameProvider with ChangeNotifier {
     difficulty = value;
   }
 
-  void startGame() {
+  void startGame(bool notify) {
     // set random values
     values.clear();
 
@@ -52,5 +54,18 @@ class GameProvider with ChangeNotifier {
 
     isPlaying = false;
     userCount = 0;
+    isShowHint = false;
+    if (notify) {
+      notifyListeners();
+    }
+  }
+
+  void setHint(bool hint) {
+    isShowHint = hint;
+    notifyListeners();
+  }
+
+  void setTimer(int time) {
+    timer = time;
   }
 }

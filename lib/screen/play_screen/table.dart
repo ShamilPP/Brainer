@@ -21,7 +21,9 @@ class _DifficultySquareState extends State<DifficultySquare> {
         height: MediaQuery.of(context).size.width - 50,
         width: MediaQuery.of(context).size.width - 50,
         child: Padding(
-          padding: const EdgeInsets.all(5),
+          padding: EdgeInsets.all(
+              (7 - Provider.of<GameProvider>(context, listen: false).difficulty)
+                  .toDouble()),
           child: GridView.count(
             shrinkWrap: true,
             crossAxisCount: difficulty,

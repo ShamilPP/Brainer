@@ -16,6 +16,7 @@ class WinnerScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             Image.asset("assets/congratulations.jpg"),
+            gameModeText(context),
             Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(30),
@@ -35,7 +36,7 @@ class WinnerScreen extends StatelessWidget {
                   ),
                   onTap: () {
                     Provider.of<GameProvider>(context, listen: false)
-                        .startGame();
+                        .startGame(false);
                     Navigator.pushReplacement(context,
                         MaterialPageRoute(builder: (_) => const PlayScreen()));
                   },
@@ -45,6 +46,22 @@ class WinnerScreen extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Widget gameModeText(BuildContext context) {
+    String gameMode = "";
+    int difficulty = Provider.of<GameProvider>(context).difficulty;
+    if (difficulty == 2) {
+      gameMode = "Easy (2X2)";
+    } else if (difficulty == 3) {
+      gameMode = "Medium (3X3)";
+    } else {
+      gameMode = "Hard (4X4)";
+    }
+    return Text(
+      gameMode,
+      style: const TextStyle(color: Colors.white, fontSize: 20),
     );
   }
 }

@@ -29,13 +29,25 @@ class FinishButton extends StatelessWidget {
                   Navigator.pushReplacement(context,
                       MaterialPageRoute(builder: (_) => const WinnerScreen()));
                 } else {
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                    content: Text('Wrong'),
-                  ));
+                  showDialog(
+                    context: context,
+                    builder: (ctx) => AlertDialog(
+                      title: const Text('Wrong'),
+                      content: const Text("Your entered values inccorect"),
+                      actions: <Widget>[
+                        TextButton(
+                          child: const Text('Retry'),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],
+                    ),
+                  );
                 }
               },
               child: const Text(
-                "FINISH", // not prefect
+                "Check", // not prefect
                 style: TextStyle(fontSize: 30),
               ),
             ),
