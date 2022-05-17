@@ -1,4 +1,3 @@
-import 'package:brainer/screen/play_screen/check_button.dart';
 import 'package:brainer/screen/play_screen/table.dart';
 import 'package:brainer/screen/play_screen/timer.dart';
 import 'package:flutter/material.dart';
@@ -49,8 +48,6 @@ class _PlayScreenState extends State<PlayScreen> {
                 onTap: () {
                   Provider.of<GameProvider>(context, listen: false)
                       .setHint(true);
-                  Provider.of<GameProvider>(context, listen: false)
-                      .setPlaying(false);
                 },
               ),
             ],
@@ -60,7 +57,6 @@ class _PlayScreenState extends State<PlayScreen> {
               ? const SizedBox()
               : const MyTimer(),
           const DifficultySquare(),
-          const FinishButton(),
         ],
       ),
     );
@@ -71,18 +67,20 @@ class _PlayScreenState extends State<PlayScreen> {
     required Color backgroundColor,
     required void Function() onTap,
   }) {
-    return Padding(
-      padding: const EdgeInsets.all(10),
-      child: ClipOval(
-        child: Material(
-          color: backgroundColor, // Button color
-          child: InkWell(
-            splashColor: Colors.white, // Splash color
-            onTap: onTap,
-            child: SizedBox(width: 45, height: 45, child: icon),
-          ),
-        ),
-      ),
-    );
+    return Provider.of<GameProvider>(context).isPlaying
+        ? Padding(
+            padding: const EdgeInsets.all(10),
+            child: ClipOval(
+              child: Material(
+                color: backgroundColor, // Button color
+                child: InkWell(
+                  splashColor: Colors.white, // Splash color
+                  onTap: onTap,
+                  child: SizedBox(width: 45, height: 45, child: icon),
+                ),
+              ),
+            ),
+          )
+        : const SizedBox();
   }
 }

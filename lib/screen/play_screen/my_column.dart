@@ -1,6 +1,9 @@
 import 'package:brainer/provider/game_provider.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import '../winner_screen.dart';
 
 class MyColumn extends StatefulWidget {
   final int index;
@@ -54,10 +57,34 @@ class _MyColumnState extends State<MyColumn> {
                     const TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
               ),
             ),
-            onTap: Provider.of<GameProvider>(context).isPlaying
+            onTap: game.isPlaying
                 ? () {
-                    Provider.of<GameProvider>(context, listen: false)
-                        .updateUserValue(widget.index);
+                    game.updateUserValue(widget.index);
+                    if (game.difficulty * game.difficulty == game.userCount) {
+                      if (mapEquals(game.values, game.userValues)) {
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => const WinnerScreen()));
+                      } else {
+                        showDialog(
+                          context: context,
+                          builder: (ctx) => AlertDialog(
+                            title: const Text('Wrong'),
+                            content:
+                                const Text("Your entered values inccorect"),
+                            actions: <Widget>[
+                              ElevatedButton(
+                                child: const Text('Retry'),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ],
+                          ),
+                        );
+                      }
+                    }
                   }
                 : null,
           ),

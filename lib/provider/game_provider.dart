@@ -61,8 +61,10 @@ class GameProvider with ChangeNotifier {
   }
 
   void setHint(bool hint) {
-    isShowHint = hint;
-    notifyListeners();
+    if (isShowHint != hint) {
+      isShowHint = hint;
+      notifyListeners();
+    }
   }
 
   void setTimer(int time) {
